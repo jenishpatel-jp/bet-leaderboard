@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import PodiumGraph from './components/PodiumGraph';
+import PodiumGraph from './components/charts/PodiumGraph';
 
 export default function Home() {
   return (
