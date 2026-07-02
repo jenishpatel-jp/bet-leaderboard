@@ -24,12 +24,12 @@ import React from 'react';
 export const description = "A horizontal bar chart"
 
 const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
+  { player: "Shawry", desktop: 186 },
+  { player: "JP", desktop: 305 },
+  { player: "Shaz", desktop: 237 },
+  { player: "April", desktop: 73 },
+  { player: "May", desktop: 209 },
+  { player: "June", desktop: 214 },
 ]
 
 const chartConfig = {
@@ -41,10 +41,10 @@ const chartConfig = {
 
 const PodiumGraph = () => {
     return (
-        <Card>
+        <Card className="w-3/4">
             <CardHeader>
-                <CardTitle>Bar Chart - Horizontal</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Betting Leaderboard</CardTitle>
+                <CardDescription>AFL Betting 2026</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -58,7 +58,7 @@ const PodiumGraph = () => {
                 >
                     <XAxis type="number" dataKey="desktop" hide />
                     <YAxis
-                    dataKey="month"
+                    dataKey="player"
                     type="category"
                     tickLine={false}
                     tickMargin={10}
