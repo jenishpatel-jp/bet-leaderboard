@@ -1,6 +1,5 @@
 'use client';
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 
 import {
@@ -14,7 +13,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -24,16 +22,13 @@ import React from 'react';
 export const description = "A horizontal bar chart"
 
 const chartData = [
-  { player: "Shawry", desktop: 186 },
-  { player: "JP", desktop: 305 },
-  { player: "Shaz", desktop: 237 },
-  { player: "April", desktop: 73 },
-  { player: "May", desktop: 209 },
-  { player: "June", desktop: 214 },
+  { player: "Shawry", profit: 85.10, fill:"purple" },
+  { player: "JP", profit: 31.98, fill:"blue" },
+  { player: "Shaz", profit: 26.20, fill:"green" },
 ]
 
 const chartConfig = {
-  desktop: {
+  profit: {
     color: "yellow",
   },
 } satisfies ChartConfig
@@ -55,20 +50,20 @@ const PodiumGraph = () => {
                     margin={{
                     }}
                 >
-                    <XAxis type="number" dataKey="desktop" hide />
+                    <XAxis type="number" dataKey="profit" hide />
                     <YAxis
-                    dataKey="player"
-                    type="category"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
+                        dataKey="player"
+                        type="category"
+                        tickLine={false}
+                        tickMargin={10}
+                        axisLine={false}
         
                     />
                     <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
                     />
-                    <Bar dataKey="desktop" fill="red" radius={5} />
+                    <Bar dataKey="profit" fill="fill" radius={5} />
                 </BarChart>
                 </ChartContainer>
             </CardContent>
