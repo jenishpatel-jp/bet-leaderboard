@@ -9,5 +9,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+}
+
+model Bet {
+  id Int @id @default(autoincrement())
+  player String
+  stake Float
+  profit Float
 }
