@@ -22,5 +22,29 @@ model Bet {
 model Player {
   id Int @id @default(autoincrement())
   name String @unique
+  transactions BetTransaction[]
   
+}
+
+model BetTransaction { 
+  id Int @id @default(autoincrement())
+
+  transactionId String
+  betId String?
+
+  time DateTime
+  type String
+  summary String
+
+  amount Float
+  balance Float
+
+  single Boolean?
+  multiple Boolean?
+  exotic Boolean?
+  pool Boolean?
+
+  playerId Int?
+  player Player? @relation(fields: [playerId], references: [id])
+
 }
