@@ -12,13 +12,6 @@ datasource db {
   provider = "sqlite"
 }
 
-model Bet {
-  id Int @id @default(autoincrement())
-  player String
-  stake Float
-  profit Float
-}
-
 model Player {
   id Int @id @default(autoincrement())
   name String @unique
