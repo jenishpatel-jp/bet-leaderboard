@@ -12,22 +12,30 @@ datasource db {
   provider = "sqlite"
 }
 
+enum TransactionType {
+  DEPOSIT
+  BET_STAKE
+  WIN
+  CASHED_OUT
+  VOID
+}
+
 model Player {
   id Int @id @default(autoincrement())
   name String @unique
+
   transactions BetTransaction[]
-  
 }
 
 model BetTransaction { 
   id Int @id @default(autoincrement())
 
-  transactionId String
+  transactionId String @unique
   betId String?
 
   time DateTime
 
-  type String
+  type TransactionType
   summary String
 
   amount Float
@@ -41,4 +49,7 @@ model BetTransaction {
   playerId Int?
   player Player? @relation(fields: [playerId], references: [id])
 
+  @@index([betId])
+  @@index([time])
+  @@index([playerId])\
 }
