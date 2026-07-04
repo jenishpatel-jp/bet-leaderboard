@@ -26,16 +26,17 @@ model BetTransaction {
   betId String?
 
   time DateTime
+
   type String
   summary String
 
   amount Float
   balance Float
 
-  single Boolean?
-  multiple Boolean?
-  exotic Boolean?
-  pool Boolean?
+  single String?
+  multiple String?
+  exotic String?
+  pool String?
 
   playerId Int?
   player Player? @relation(fields: [playerId], references: [id])
