@@ -51,5 +51,5 @@ model BetTransaction {
 
   @@index([betId])
   @@index([time])
-  @@index([playerId])\
+  @@index([playerId])
 }
