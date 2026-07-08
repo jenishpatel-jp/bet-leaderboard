@@ -25,7 +25,11 @@ async function main(){
 
     console.log(`Found ${rows.length} rows`);
 
-    const playerNames = [...new Set(rows.map((row) => row.Player).filter(Boolean))];
+    //const playerNames = [...new Set(rows.map((row) => row.Player).filter(Boolean))];
+
+    const players = rows.map((row) => row.Player).filter(Boolean);
+    const uniquePlayers = new Set(players);
+    const playerNames = [...uniquePlayers];
 
     console.log("Players found", playerNames);
 
