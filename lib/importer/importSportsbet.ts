@@ -13,7 +13,7 @@ type SportsbetRow = {
     Balance: number;
     Single?: string;
     Multiple?: string;
-    Exoctic?: string;
+    Exotic?: string;
     Pool?: string;
     Player: string;
 }
@@ -79,6 +79,59 @@ const mapTransactionType = (type: string) : TransactionType => {
             throw new Error(`Unknown transaction type: ${type}`);
     }
 };
+
+const importTransactions = async(
+    rows: SportsbetRow[],
+    playerMap: Map<string, number>
+) => {
+
+    let importedCount = 0;
+
+    for (const row of rows){
+        const playerId = playerMap.get(row.Player);
+
+        if (!playerId){
+            throw new Error(`Player not found for name: ${row.Player}`);
+        };
+
+        await prisma.betTransaction.upsert({
+            where: {
+                transactionId: String(row["Transaction Id"]),
+            },
+            update: {
+                betId: row["Bet Id"] ? String(row["Bet Id"]) : null,
+                time: new Date(row["Time (AEST)"]),
+                type: mapTransactionType(row.Type),
+                summary: row.Summary,
+                amount: row.Amount,
+                balance: row.Balance,
+                single: row.Single || null,
+                multiple: row.Multiple || null,
+                exotic: row.Exotic || null,
+                pool: row.Pool || null,
+                playerId,
+            },
+            create: {
+                transactionId: String(row["Transaction Id"]),
+                betId: row["Bet Id"] ? String(row["Bet Id"]) : null,
+                time: new Date(row["Time (AEST)"]),
+                type: mapTransactionType(row.Type),
+                summary: row.Summary,
+                amount: row.Amount,
+                balance: row.Balance,
+                single: row.Single || null,
+                multiple: row.Multiple || null,
+                exotic: row.Exotic || null,
+                pool: row.Pool || null,
+                playerId,
+            }
+        })
+        importedCount++;
+    }
+
+    console.log(`Imported ${importedCount} transactions`);
+
+}
 
 // Main function to execute the import process
 async function main(){  
