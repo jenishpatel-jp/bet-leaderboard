@@ -158,9 +158,6 @@ const importTransactions = async(
 async function main(){  
 
     const rows = readExcel();
-    console.log(rows[3]);
-    console.log(typeof rows[3].Single);
-    console.log(rows[3].Single);
     console.log(`Found ${rows.length} rows`);
 
     await importPlayers(rows);
