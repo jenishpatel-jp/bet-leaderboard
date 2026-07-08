@@ -23,14 +23,7 @@ const readExcel = () => {
     return XLSX.utils.sheet_to_json<SportsbetRow>(worksheet);
 }
 
-async function main(){  
-
-    const rows = readExcel();
-
-    console.log(`Found ${rows.length} rows`);
-
-    //const playerNames = [...new Set(rows.map((row) => row.Player).filter(Boolean))];
-
+const importPlayers = async(rows: SportsbetRow[]) => {
     const players = rows.map((row) => row.Player).filter(Boolean);
     const uniquePlayers = new Set(players);
     const playerNames = [...uniquePlayers];
@@ -45,15 +38,19 @@ async function main(){
             update: {},
             create: {
                 name,
-            },
-        });
-
-        console.log(`Imported player ${name}`);
+            }
+        })
+        console.log(`Imported ${playerNames.length} players`);
     }
 
     const playerCount = await prisma.player.count();
-
     console.log(`Database now has ${playerCount} players`);
+}
+
+async function main(){  
+
+    const rows = readExcel();
+    await importPlayers(rows);    
 }
 
 main()
