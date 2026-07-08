@@ -43,7 +43,6 @@ const importPlayers = async(rows: SportsbetRow[]) => {
                 name,
             }
         })
-        console.log(`Imported ${playerNames.length} players`);
     }
 
     const playerCount = await prisma.player.count();
@@ -65,7 +64,12 @@ const createPlayerMap = async() => {
 async function main(){  
 
     const rows = readExcel();
-    await importPlayers(rows);    
+    console.log(`Found ${rows.length} rows`);
+
+    await importPlayers(rows);
+
+    const playerMap = await createPlayerMap();
+    console.log(playerMap);
 }
 
 main()
