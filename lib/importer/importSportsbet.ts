@@ -11,10 +11,10 @@ type SportsbetRow = {
     "Bet Id"?: string;
     Amount: number;
     Balance: number;
-    Single?: string;
-    Multiple?: string;
-    Exotic?: string;
-    Pool?: string;
+    Single?: boolean;
+    Multiple?: boolean;
+    Exotic?: boolean;
+    Pool?: boolean;
     Player: string;
 }
 
@@ -105,10 +105,10 @@ const importTransactions = async(
                 summary: row.Summary,
                 amount: row.Amount,
                 balance: row.Balance,
-                single: row.Single || null,
-                multiple: row.Multiple || null,
-                exotic: row.Exotic || null,
-                pool: row.Pool || null,
+                single: row.Single ?? null,
+                multiple: row.Multiple ?? null,
+                exotic: row.Exotic ?? null,
+                pool: row.Pool ?? null,
                 playerId,
             },
             create: {
@@ -119,10 +119,10 @@ const importTransactions = async(
                 summary: row.Summary,
                 amount: row.Amount,
                 balance: row.Balance,
-                single: row.Single || null,
-                multiple: row.Multiple || null,
-                exotic: row.Exotic || null,
-                pool: row.Pool || null,
+                single: row.Single ?? null,
+                multiple: row.Multiple ?? null,
+                exotic: row.Exotic ?? null,
+                pool: row.Pool ?? null,
                 playerId,
             }
         })
@@ -142,7 +142,11 @@ async function main(){
     await importPlayers(rows);
 
     const playerMap = await createPlayerMap();
-    console.log(playerMap);
+    
+    await importTransactions(rows, playerMap);
+
+    const transactionCount = await prisma.betTransaction.count();
+    console.log(`Database now has ${transactionCount} transactions`);
 }
 
 main()
