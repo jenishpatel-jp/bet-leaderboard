@@ -17,12 +17,15 @@ type SportsbetRow = {
     Player: string;
 }
 
+// Read the Excel file and convert it to JSON
 const readExcel = () => {
     const workbook = XLSX.readFile("uploads/sportsbet.xlsx");
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     return XLSX.utils.sheet_to_json<SportsbetRow>(worksheet);
 }
 
+
+// Import players into the database
 const importPlayers = async(rows: SportsbetRow[]) => {
     const players = rows.map((row) => row.Player).filter(Boolean);
     const uniquePlayers = new Set(players);
@@ -47,6 +50,18 @@ const importPlayers = async(rows: SportsbetRow[]) => {
     console.log(`Database now has ${playerCount} players`);
 }
 
+const createPlayerMap = async() => {
+    const players = await prisma.player.findMany();
+
+    const playerMap = new Map<string, number>();
+    for (const player of players){
+        playerMap.set(player.name, player.id);
+    }
+
+    return playerMap;
+};
+
+// Main function to execute the import process
 async function main(){  
 
     const rows = readExcel();
