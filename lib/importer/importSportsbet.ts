@@ -1,6 +1,7 @@
 import "dotenv/config";
 import * as XLSX from "xlsx";
 import { prisma } from "@/lib/prisma";
+import { TransactionType } from "@/lib/generated/prisma/client";
 
 type SportsbetRow = {
     "Time (AEST)": string;
@@ -49,6 +50,7 @@ const importPlayers = async(rows: SportsbetRow[]) => {
     console.log(`Database now has ${playerCount} players`);
 }
 
+// Create a map of player names to their IDs
 const createPlayerMap = async() => {
     const players = await prisma.player.findMany();
 
@@ -58,6 +60,24 @@ const createPlayerMap = async() => {
     }
 
     return playerMap;
+};
+
+// Map the transaction type from the Excel file to the TransactionType enum
+const mapTransactionType = (type: string) : TransactionType => {
+    switch (type) {
+        case "Deposit":
+            return TransactionType.DEPOSIT;
+        case "Bet Stake":
+            return TransactionType.BET_STAKE;
+        case "Win":
+            return TransactionType.WIN;
+        case "Void":
+            return TransactionType.VOID;
+        case "Cashed Out":
+            return TransactionType.CASHED_OUT;
+        default:
+            throw new Error(`Unknown transaction type: ${type}`);
+    }
 };
 
 // Main function to execute the import process
