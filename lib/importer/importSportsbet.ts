@@ -17,11 +17,15 @@ type SportsbetRow = {
     Player: string;
 }
 
-async function main(){
+const readExcel = () => {
     const workbook = XLSX.readFile("uploads/sportsbet.xlsx");
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    return XLSX.utils.sheet_to_json<SportsbetRow>(worksheet);
+}
 
-    const rows = XLSX.utils.sheet_to_json<SportsbetRow>(worksheet);    
+async function main(){  
+
+    const rows = readExcel();
 
     console.log(`Found ${rows.length} rows`);
 
