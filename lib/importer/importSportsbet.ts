@@ -80,6 +80,25 @@ const mapTransactionType = (type: string) : TransactionType => {
     }
 };
 
+// Convert a value to boolean or null
+const toBooleanOrNull = (value: unknown): boolean | null => {
+    if (value === undefined || value === null || value === ""){
+        return true;
+    }
+
+    if (value === true || value === "TRUE" || value === "true" || value === 1){
+        return true;
+    }
+
+    if (value === false || value === "FALSE" || value === "false" || value === 0){
+        return false;
+    }
+
+    throw new Error(`Unexpected boolean value ${value}`);
+};
+
+
+// Import transactions into the database
 const importTransactions = async(
     rows: SportsbetRow[],
     playerMap: Map<string, number>
@@ -105,10 +124,10 @@ const importTransactions = async(
                 summary: row.Summary,
                 amount: row.Amount,
                 balance: row.Balance,
-                single: row.Single ?? null,
-                multiple: row.Multiple ?? null,
-                exotic: row.Exotic ?? null,
-                pool: row.Pool ?? null,
+                single: toBooleanOrNull(row.Single),
+                multiple: toBooleanOrNull(row.Multiple),
+                exotic: toBooleanOrNull(row.Exotic),
+                pool: toBooleanOrNull(row.Pool),
                 playerId,
             },
             create: {
@@ -119,10 +138,10 @@ const importTransactions = async(
                 summary: row.Summary,
                 amount: row.Amount,
                 balance: row.Balance,
-                single: row.Single ?? null,
-                multiple: row.Multiple ?? null,
-                exotic: row.Exotic ?? null,
-                pool: row.Pool ?? null,
+                single: toBooleanOrNull(row.Single),
+                multiple: toBooleanOrNull(row.Multiple),
+                exotic: toBooleanOrNull(row.Exotic),
+                pool: toBooleanOrNull(row.Pool),
                 playerId,
             }
         })
@@ -133,10 +152,15 @@ const importTransactions = async(
 
 }
 
+
+
 // Main function to execute the import process
 async function main(){  
 
     const rows = readExcel();
+    console.log(rows[3]);
+    console.log(typeof rows[3].Single);
+    console.log(rows[3].Single);
     console.log(`Found ${rows.length} rows`);
 
     await importPlayers(rows);
