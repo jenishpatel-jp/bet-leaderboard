@@ -83,7 +83,7 @@ const mapTransactionType = (type: string) : TransactionType => {
 // Convert a value to boolean or null
 const toBooleanOrNull = (value: unknown): boolean | null => {
     if (value === undefined || value === null || value === ""){
-        return true;
+        return null;
     }
 
     if (value === true || value === "TRUE" || value === "true" || value === 1){
