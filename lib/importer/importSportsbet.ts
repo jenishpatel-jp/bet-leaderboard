@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { TransactionType } from "@/lib/generated/prisma/client";
 
 type SportsbetRow = {
-    "Time (AEST)": string;
+    "Time (AEST)": number;
     Type: string;
     Summary: string;
     "Transaction Id": string;
@@ -97,6 +97,15 @@ const toBooleanOrNull = (value: unknown): boolean | null => {
     throw new Error(`Unexpected boolean value ${value}`);
 };
 
+// Convert Excel date to JavaScript Date
+const excelDateToJSDate = (excelDate : number): Date => {
+    const excelEpoch = new Date(Date.UTC(1899, 11, 30));
+
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+    return new Date(excelEpoch.getTime() + excelDate * millisecondsPerDay);
+}
+
 
 // Import transactions into the database
 const importTransactions = async(
@@ -119,7 +128,7 @@ const importTransactions = async(
             },
             update: {
                 betId: row["Bet Id"] ? String(row["Bet Id"]) : null,
-                time: new Date(row["Time (AEST)"]),
+                time: excelDateToJSDate(Number(row["Time (AEST)"])),
                 type: mapTransactionType(row.Type),
                 summary: row.Summary,
                 amount: row.Amount,
@@ -133,7 +142,7 @@ const importTransactions = async(
             create: {
                 transactionId: String(row["Transaction Id"]),
                 betId: row["Bet Id"] ? String(row["Bet Id"]) : null,
-                time: new Date(row["Time (AEST)"]),
+                time: excelDateToJSDate(Number(row["Time (AEST)"])),
                 type: mapTransactionType(row.Type),
                 summary: row.Summary,
                 amount: row.Amount,
