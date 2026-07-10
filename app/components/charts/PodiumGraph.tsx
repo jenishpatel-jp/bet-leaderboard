@@ -35,9 +35,9 @@ const chartConfig = {
 
 const PodiumGraph = () => {
     return (
-        <Card className="w-3/4 m-2 p-2">
+        <Card className="w-3/4 m-2 p-2 bg-black">
             <CardHeader>
-                <CardTitle>Betting Leaderboard</CardTitle>
+                <CardTitle className="text-white">Betting Leaderboard</CardTitle>
                 <CardDescription>AFL Betting 2026</CardDescription>
             </CardHeader>
             <CardContent>
