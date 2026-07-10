@@ -1,7 +1,8 @@
 import "dotenv/config";
-import * as XLSX from "xlsx";
 import { prisma } from "@/lib/prisma";
 import { TransactionType } from "@/lib/generated/prisma/client";
+import { readExcelSheet, toBooleanOrNull } from "@/lib/excel";
+import { excelDateToJSDate } from "@/lib/date";
 
 type SportsbetRow = {
     "Time (AEST)": number;
@@ -16,13 +17,6 @@ type SportsbetRow = {
     Exotic?: boolean;
     Pool?: boolean;
     Player: string;
-}
-
-// Read the Excel file and convert it to JSON
-const readExcel = () => {
-    const workbook = XLSX.readFile("uploads/sportsbet.xlsx");
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    return XLSX.utils.sheet_to_json<SportsbetRow>(worksheet);
 }
 
 
@@ -80,30 +74,8 @@ const mapTransactionType = (type: string) : TransactionType => {
     }
 };
 
-// Convert a value to boolean or null
-const toBooleanOrNull = (value: unknown): boolean | null => {
-    if (value === undefined || value === null || value === ""){
-        return null;
-    }
-
-    if (value === true || value === "TRUE" || value === "true" || value === 1){
-        return true;
-    }
-
-    if (value === false || value === "FALSE" || value === "false" || value === 0){
-        return false;
-    }
-
-    throw new Error(`Unexpected boolean value ${value}`);
-};
-
-// Convert Excel date to JavaScript Date
-const excelDateToJSDate = (excelDate : number): Date => {
-    const excelEpoch = new Date(Date.UTC(1899, 11, 30));
-
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-
-    return new Date(excelEpoch.getTime() + excelDate * millisecondsPerDay);
+const readExcel = () => {
+    return readExcelSheet<SportsbetRow>("uploads/sportsbet.xlsx");
 }
 
 
@@ -160,8 +132,6 @@ const importTransactions = async(
     console.log(`Imported ${importedCount} transactions`);
 
 }
-
-
 
 // Main function to execute the import process
 async function main(){  
