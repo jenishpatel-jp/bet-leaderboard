@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { TransactionType } from "@/lib/generated/prisma/client";
-import { Player } from "../generated/prisma/browser";
 
 export type PlayerProfit = {
     player: string;
