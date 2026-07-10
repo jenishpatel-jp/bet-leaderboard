@@ -35,7 +35,7 @@ const chartConfig = {
 
 const PodiumGraph = () => {
     return (
-        <Card className="w-3/4 m-2 p-2 bg-black">
+        <Card className="w-3/4  m-2 p-2 bg-black">
             <CardHeader>
                 <CardTitle className="text-white">Betting Leaderboard</CardTitle>
                 <CardDescription>AFL Betting 2026</CardDescription>
@@ -63,7 +63,7 @@ const PodiumGraph = () => {
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
                     />
-                    <Bar dataKey="profit" fill="fill" radius={5} />
+                    <Bar dataKey="profit" radius={5} />
                 </BarChart>
                 </ChartContainer>
             </CardContent>
