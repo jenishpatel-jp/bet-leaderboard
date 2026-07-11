@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, XAxis, YAxis, Cell } from "recharts"
+import { Bar, BarChart, XAxis, YAxis, } from "recharts"
 
 import {
   ChartContainer,
@@ -17,7 +17,15 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-import React from 'react';
+type PodiumGraphProps = {
+    chartData: {
+        player:string;
+        profit: number;
+        fill: string;
+    }[];
+}
+
+
 
 export const description = "A horizontal bar chart"
 
