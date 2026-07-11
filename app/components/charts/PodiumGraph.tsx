@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, XAxis, YAxis, } from "recharts"
+import { Bar, BarChart, Label, XAxis, YAxis, } from "recharts"
 
 import {
   ChartContainer,
@@ -25,23 +25,28 @@ type PodiumGraphProps = {
     }[];
 }
 
+const chartConfig = {
+    profit: {
+        label: "Profit"
+    },
+    Shawry: {
+        label: "Shawry",
+        color: "var(--chart-1)",
+    },
+    JP: {
+        label: "JP",
+        color: "var(--char-2)",
+    },
+    Shaz: {
+        label: "Shaz",
+        color: "var(--chart-3)"
+    },
+} satisfies ChartConfig;
 
 
 export const description = "A horizontal bar chart"
 
-const chartData = [
-  { player: "Shawry", profit: 85.10, fill:"purple" },
-  { player: "JP", profit: 31.98, fill:"blue" },
-  { player: "Shaz", profit: 26.20, fill:"green" },
-]
-
-const chartConfig = {
-  profit: {
-    color: "yellow",
-  },
-} satisfies ChartConfig
-
-const PodiumGraph = () => {
+const PodiumGraph = ({ chartData }: PodiumGraphProps) => {
     return (
         <Card className="w-3/4  m-2 p-2 bg-black">
             <CardHeader>
