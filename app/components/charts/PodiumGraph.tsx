@@ -1,6 +1,6 @@
 'use client';
 
-import { Bar, BarChart, Label, XAxis, YAxis, } from "recharts"
+import { Bar, BarChart, XAxis, YAxis, } from "recharts"
 
 import {
   ChartContainer,
@@ -31,15 +31,15 @@ const chartConfig = {
     },
     Shawry: {
         label: "Shawry",
-        color: "var(--chart-1)",
+        color: "blue",
     },
     JP: {
         label: "JP",
-        color: "var(--char-2)",
+        color: "red",
     },
     Shaz: {
         label: "Shaz",
-        color: "var(--chart-3)"
+        color: "yellow"
     },
 } satisfies ChartConfig;
 
