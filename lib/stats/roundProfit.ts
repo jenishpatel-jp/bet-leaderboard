@@ -74,3 +74,24 @@ const getRoundIndex = (date: Date): number | null => {
     return roundIndex;
 
 }
+
+/**
+ * Converts the database player name into the corresponding
+ * property name used by the chart.
+ */
+
+const getPlayerKey = (playerName: string):"shawry"|"jp"|"shaz" => {
+    switch(playerName.toLowerCase()){
+        case "shawry":
+            return "shawry";
+        
+        case "jp":
+            return "jp";
+
+        case "shaz":
+            return "shaz";
+
+        default:
+            throw new Error(`Unknown player: ${playerName}`);
+    }
+}
