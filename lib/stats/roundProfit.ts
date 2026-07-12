@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { TransactionType } from "@/lib/generated/prisma/client";
-import { difference } from "next/dist/build/utils";
+
 
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const DAYS_PER_ROUND = 7;
@@ -11,7 +11,8 @@ const DAYS_PER_ROUND = 7;
  * through Monday 9 March 2026.
  */
 
-const ROUND_ZERO_START = Date.UTC(2026, 2, 3);
+const ROUND_ZERO_START = Date.UTC(2026, 2, 2);
+const ROUND_ONE_START = Date.UTC(2026, 2, 10);
 
 const ROUND_LABELS = [
     ...Array.from({ length:25 }, (_, index) => `Round ${index}`),
@@ -57,17 +58,26 @@ const getDateOnlyValue = (date: Date): number => {
 const getRoundIndex = (date: Date): number | null => {
     const transactionDate = getDateOnlyValue(date);
 
+    // Ignore transactions before Round 0.
+    if (transactionDate < ROUND_ZERO_START) {
+        return null;
+    }
+
+    // Round 0 is a special opening period:
+    // Monday 2 March through Monday 9 March.
+    if (transactionDate < ROUND_ONE_START) {
+        return 0;
+    }
+
+    // From Round 1 onwards, every round runs Tuesday–Monday.
     const differenceInDays = Math.floor(
-        (transactionDate - ROUND_ZERO_START) / MILLISECONDS_PER_DAY
+        (transactionDate - ROUND_ONE_START) / MILLISECONDS_PER_DAY
     );
 
-    if (differenceInDays < 0){
-        return null;
-    };
+    const roundIndex =
+        1 + Math.floor(differenceInDays / DAYS_PER_ROUND);
 
-    const roundIndex = Math.floor(differenceInDays / DAYS_PER_ROUND);
-
-    if (roundIndex >= ROUND_LABELS.length){
+    if (roundIndex >= ROUND_LABELS.length) {
         return null;
     }
 
@@ -159,8 +169,8 @@ export const getRoundProfitData = async () => {
             return {
                 round,
                 shawry: Number(cumulativeProfit.shawry.toFixed(2)),
-                jp: Number(cumulativeProfit.shawry.toFixed(2)),
-                shaz: Number(cumulativeProfit.shawry.toFixed(2)),
+                jp: Number(cumulativeProfit.jp.toFixed(2)),
+                shaz: Number(cumulativeProfit.shaz.toFixed(2)),
             };
         });
 }
