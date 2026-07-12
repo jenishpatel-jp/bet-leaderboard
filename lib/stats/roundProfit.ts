@@ -94,4 +94,73 @@ const getPlayerKey = (playerName: string):"shawry"|"jp"|"shaz" => {
         default:
             throw new Error(`Unknown player: ${playerName}`);
     }
+};
+
+export const getRoundProfitDate = async () => {
+    const transactions = await prisma.betTransaction.findMany({
+        where: {
+            type: {
+                not: TransactionType.DEPOSIT,
+            },
+        },
+        select: {
+            time: true,
+            amount: true,
+            player: {
+                select: {
+                    name: true,
+                }
+            }
+        },
+        orderBy: {
+            time: "asc"
+        },
+    });
+
+    const profitChanges = ROUND_LABELS.map(() => ({
+        shawry: 0,
+        jp: 0,
+        shaz: 0,
+    }));
+
+    let latestRoundIndex = 0;
+
+    for (const transaction of transactions){
+        if (!transaction.player){
+            continue;
+        }
+
+        const roundIndex = getRoundIndex(transaction.time);
+
+        if (roundIndex === null){
+            continue;
+        }
+
+        const playerKey = getPlayerKey(transaction.player.name);
+
+        profitChanges[roundIndex][playerKey] += transaction.amount;
+
+        latestRoundIndex = Math.max(latestRoundIndex, roundIndex);
+    }
+
+    const cumulativeProfit = {
+        shawry: 0,
+        jp: 0,
+        shaz: 0,
+    };
+
+    return ROUND_LABELS
+        .slice(0, latestRoundIndex + 1)
+        .map((round, index) => {
+            cumulativeProfit.shawry += profitChanges[index].shawry;
+            cumulativeProfit.jp += profitChanges[index].jp;
+            cumulativeProfit.shaz += profitChanges[index].shaz;
+
+            return {
+                round,
+                shawry: Number(cumulativeProfit.shawry.toFixed(2)),
+                jp: Number(cumulativeProfit.shawry.toFixed(2)),
+                shaz: Number(cumulativeProfit.shawry.toFixed(2)),
+            };
+        });
 }
