@@ -79,18 +79,18 @@ function formatRoundLabel(value: string): string {
 
 const LineGraph = ({ chartData }: LineGraphProps) => {
     return (
-        <Card className="w-full">
+        <Card className="w-1/2 bg-black border-2">
 
-            <CardHeader>
+            <CardHeader className="text-white">
                 <CardTitle>Aggregated profit by round</CardTitle>
-                <CardDescription>Running betting profit throughout the 2026 AFL season</CardDescription>
+                <CardDescription className="text-white">Running betting profit throughout the 2026 AFL season</CardDescription>
             </CardHeader>
 
             <CardContent>
 
                 <ChartContainer 
                     config={chartConfig}
-                    className="min-h-[350px] w-full"
+                    className="min-h-87.5 w-full"
                     >
 
                 <LineChart
@@ -133,7 +133,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         content={
                         <ChartTooltipContent 
                             formatter={(value, name) => (
-                            <div className="flex min-w-[130px] items-center justify-between gap-4">
+                            <div className="flex min-w-32.5 items-center justify-between gap-4">
                             <span>{chartConfig[name as keyof typeof chartConfig]?.label}</span>
 
                             <span className="font-mono font-medium">
