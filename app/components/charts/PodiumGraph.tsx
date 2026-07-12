@@ -29,17 +29,17 @@ const chartConfig = {
     profit: {
         label: "Profit"
     },
-    Shawry: {
+    shawry: {
         label: "Shawry",
-        color: "blue",
+        color: "var(--chart-1)",
     },
-    JP: {
+    jp: {
         label: "JP",
-        color: "red",
+        color: "var(--chart-2)",
     },
-    Shaz: {
+    shaz: {
         label: "Shaz",
-        color: "yellow"
+        color: "var(--chart-3)"
     },
 } satisfies ChartConfig;
 
@@ -48,9 +48,9 @@ export const description = "A horizontal bar chart"
 
 const PodiumGraph = ({ chartData }: PodiumGraphProps) => {
     return (
-        <Card className="w-3/4  m-2 p-2 bg-black">
+        <Card className="w-1/4 m-2 p-4 bg-black border-2">
             <CardHeader>
-                <CardTitle className="text-white">Betting Leaderboard</CardTitle>
+                <CardTitle className="text-white">Total Profit</CardTitle>
                 <CardDescription>AFL Betting 2026</CardDescription>
             </CardHeader>
             <CardContent>
@@ -70,7 +70,6 @@ const PodiumGraph = ({ chartData }: PodiumGraphProps) => {
                         tickLine={false}
                         tickMargin={10}
                         axisLine={false}
-        
                     />
                     <ChartTooltip
                     cursor={false}
