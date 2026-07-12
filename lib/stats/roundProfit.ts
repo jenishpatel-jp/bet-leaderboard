@@ -96,7 +96,7 @@ const getPlayerKey = (playerName: string):"shawry"|"jp"|"shaz" => {
     }
 };
 
-export const getRoundProfitDate = async () => {
+export const getRoundProfitData = async () => {
     const transactions = await prisma.betTransaction.findMany({
         where: {
             type: {

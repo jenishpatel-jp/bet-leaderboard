@@ -1,102 +1,174 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ReferenceLine,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A multiple line chart"
+import type { RoundProfitData } from "@/lib/stats/roundProfit";
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+export const description = "Aggregated betting profit by AFL round";
+
+type LineGraphProps = {
+  chartData: RoundProfitData[];
+};
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  shawry: {
+    label: "Shawry",
     color: "var(--chart-1)",
   },
-  mobile: {
-    label: "Mobile",
+  jp: {
+    label: "JP",
     color: "var(--chart-2)",
   },
-} satisfies ChartConfig
+  shaz: {
+    label: "Shaz",
+    color: "var(--chart-3)",
+  },
+} satisfies ChartConfig;
+
+function formatRoundLabel(value: string): string {
+  if (value.startsWith("Round ")) {
+    return value.replace("Round ", "R");
+  }
+
+  switch (value) {
+    case "Wild Card Round":
+      return "WC";
+
+    case "Finals Week 1":
+      return "FW1";
+
+    case "Semi Finals":
+      return "SF";
+
+    case "Preliminary Finals":
+      return "PF";
+
+    case "Grand Final":
+      return "GF";
+
+    default:
+      return value;
+  }
+}
 
 
 
-const LineGraph = () => {
+const LineGraph = ({ chartData }: LineGraphProps) => {
     return (
-        <Card>
+        <Card className="w-full">
+
             <CardHeader>
-                <CardTitle>Line Chart - Multiple</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardTitle>Aggregated profit by round</CardTitle>
+                <CardDescription>Running betting profit throughout the 2026 AFL season</CardDescription>
             </CardHeader>
+
             <CardContent>
-                <ChartContainer config={chartConfig}>
+
+                <ChartContainer 
+                    config={chartConfig}
+                    className="min-h-[350px] w-full"
+                    >
+
                 <LineChart
                     accessibilityLayer
                     data={chartData}
                     margin={{
                     left: 12,
                     right: 12,
+                    bottom: 12,
+                    top: 12
                     }}
                 >
+
                     <CartesianGrid vertical={false} />
+
                     <XAxis
                     dataKey="month"
                     tickLine={false}
                     axisLine={false}
+                    tickMargin={10}
+                    minTickGap={20}
+                    tickFormatter={formatRoundLabel}
+                    />
+                    
+                    <YAxis
+                    tickLine={false}
+                    axisLine={false}
                     tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
+                    tickFormatter={(value) => `$${value}`}
                     />
-                    <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+
+                    <ReferenceLine
+                        y={0}
+                        stroke="var(--muted-foreground)"
+                        strokeDasharray="3 3"
+                        />
+
+                    <ChartTooltip 
+                        cursor={false} 
+                        content={
+                        <ChartTooltipContent 
+                            formatter={(value, name) => (
+                            <div className="flex min-w-[130px] items-center justify-between gap-4">
+                            <span>{chartConfig[name as keyof typeof chartConfig]?.label}</span>
+
+                            <span className="font-mono font-medium">
+                                ${Number(value).toFixed(2)}
+                            </span>
+                            </div>
+                        )}
+                        />} />
+
+                    <ChartLegend content={<ChartLegendContent />} />
+
                     <Line
-                    dataKey="desktop"
-                    type="monotone"
-                    stroke="var(--color-desktop)"
-                    strokeWidth={2}
-                    dot={false}
+                        dataKey="shawry"
+                        type="monotone"
+                        stroke="var(--color-shawry)"
+                        strokeWidth={2}
+                        dot={false}
+                        />
+                    <Line
+                        dataKey="jp"
+                        type="monotone"
+                        stroke="var(--color-shawry)"
+                        strokeWidth={2}
+                        dot={false}
                     />
                     <Line
-                    dataKey="mobile"
-                    type="monotone"
-                    stroke="var(--color-mobile)"
-                    strokeWidth={2}
-                    dot={false}
+                        dataKey="shaz"
+                        type="monotone"
+                        stroke="var(--color-shaz)"
+                        strokeWidth={2}
+                        dot={false}
                     />
                 </LineChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter>
-                <div className="flex w-full items-start gap-2 text-sm">
-                <div className="grid gap-2">
-                    <div className="flex items-center gap-2 leading-none font-medium">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                    </div>
-                    <div className="flex items-center gap-2 leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
-                    </div>
-                </div>
-                </div>
-            </CardFooter>
     </Card>
     )
 }
