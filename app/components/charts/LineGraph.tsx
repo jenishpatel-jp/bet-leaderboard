@@ -107,7 +107,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                     <CartesianGrid vertical={false} />
 
                     <XAxis
-                    dataKey="month"
+                    dataKey="round"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={10}
@@ -155,7 +155,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                     <Line
                         dataKey="jp"
                         type="monotone"
-                        stroke="var(--color-shawry)"
+                        stroke="var(--color-jp)"
                         strokeWidth={2}
                         dot={false}
                     />
