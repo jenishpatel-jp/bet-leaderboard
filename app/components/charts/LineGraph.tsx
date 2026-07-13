@@ -79,7 +79,7 @@ function formatRoundLabel(value: string): string {
 
 const LineGraph = ({ chartData }: LineGraphProps) => {
     return (
-        <Card className="w-1/2 bg-black border-2">
+        <Card className="w-1/2 bg-background border-2">
 
             <CardHeader className="text-white">
                 <CardTitle>Aggregated profit by round</CardTitle>
