@@ -20,9 +20,14 @@ export default async function Home(  ) {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-black font-sans dark:bg-black">
       <main className="flex flex-1 w-full flex-col justify-center items-center bg-black dark:bg-black border-2">
-        <h1 className="text-5xl font-bold text-center p-2 m-2 text-white fixed top-6">Bet Leaderboard</h1>
-        {/* <PodiumGraph chartData={podiumChartData} /> */}
-        <LineGraph chartData={roundProfitData} />
+        <h1 className="text-5xl font-bold text-center p-2 m-2 text-white">Bet Leaderboard</h1>
+        <div className="flex w-full h-screen bg-black items-center justify-center ">
+          <LineGraph chartData={roundProfitData} />
+        </div>
+        <div className="flex w-full h-screen bg-black items-center justify-center">
+          <PodiumGraph chartData={podiumChartData} />
+        </div>
+
       </main>
     </div>
   );

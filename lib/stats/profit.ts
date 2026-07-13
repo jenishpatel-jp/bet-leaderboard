@@ -24,5 +24,5 @@ export const getPlayerProfit = async(): Promise<PlayerProfit[]>  => {
         profit: Number(profit.toFixed(2)),
       };
     })
-    .sort((a, b) => b.profit - a.profit);
+    // .sort((a, b) => b.profit - a.profit);
 }
