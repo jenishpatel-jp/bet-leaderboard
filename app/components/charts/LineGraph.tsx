@@ -75,8 +75,6 @@ function formatRoundLabel(value: string): string {
   }
 }
 
-
-
 const LineGraph = ({ chartData }: LineGraphProps) => {
     return (
         <Card className="w-1/2 bg-background border-2">
@@ -108,6 +106,10 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
 
                     <XAxis
                     dataKey="round"
+                    tick={{
+                      fill:"white",
+                      fontSize: 12
+                    }}
                     tickLine={false}
                     axisLine={false}
                     tickMargin={10}
@@ -120,6 +122,10 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                     axisLine={false}
                     tickMargin={8}
                     tickFormatter={(value) => `$${value}`}
+                    tick={{
+                      fill: "white",
+                      fontSize: "12"
+                    }}
                     />
 
                     <ReferenceLine
@@ -134,16 +140,20 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         <ChartTooltipContent 
                             formatter={(value, name) => (
                             <div className="flex min-w-32.5 items-center justify-between gap-4">
-                            <span>{chartConfig[name as keyof typeof chartConfig]?.label}</span>
+                            <span className="text-white">{chartConfig[name as keyof typeof chartConfig]?.label}</span>
 
-                            <span className="font-mono font-medium">
+                            <span className="font-mono font-medium text-foreground">
                                 ${Number(value).toFixed(2)}
                             </span>
                             </div>
                         )}
                         />} />
 
-                    <ChartLegend content={<ChartLegendContent />} />
+                    <ChartLegend 
+                      content={
+                        <ChartLegendContent 
+                          className="text-white"
+                        />} />
 
                     <Line
                         dataKey="shawry"
