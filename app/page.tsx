@@ -1,4 +1,5 @@
 import BetSummary from './components/cards/BetSummary';
+import BettingCard from './components/cards/BettingCard';
 import LineGraph from './components/charts/LineGraph';
 import PodiumGraph from './components/charts/PodiumGraph';
 import { getPlayerProfit } from '@/lib/stats/profit';
@@ -28,11 +29,9 @@ export default async function Home(  ) {
           <LineGraph chartData={roundProfitData} />
         </div>
         
-        {/* <div className="flex w-full h-screen bg-background border-2 items-center justify-center">
-          <div className='w-3/5'>
-            <BetSummary />
-          </div>
-        </div> */}
+        <div className="flex w-full h-screen bg-background border-2 items-center justify-center">
+          <BettingCard />
+        </div>
 
         <div className="flex w-full h-screen bg-background items-center justify-center">
           <PodiumGraph chartData={podiumChartData} />
