@@ -28,9 +28,11 @@ export default async function Home(  ) {
           <LineGraph chartData={roundProfitData} />
         </div>
         
-        <div className="flex w-full h-screen bg-background border-2 items-center justify-center">
-          <BetSummary />
-        </div>
+        {/* <div className="flex w-full h-screen bg-background border-2 items-center justify-center">
+          <div className='w-3/5'>
+            <BetSummary />
+          </div>
+        </div> */}
 
         <div className="flex w-full h-screen bg-background items-center justify-center">
           <PodiumGraph chartData={podiumChartData} />
