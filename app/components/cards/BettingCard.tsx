@@ -16,13 +16,15 @@ const BettingCard = () => {
         <Card className="bg-background text-white w-1/6 h-1/2 rounded-3xl flex border-2">
             <CardHeader>
                 <CardTitle className="text-center text-3xl">1st Quarter</CardTitle>
-                <CardDescription className="text-center text-white">Stats for the 1st Quarter</CardDescription>
+                <CardDescription className="text-center text-white">Opening Round - Round 6</CardDescription>
             </CardHeader>
             <CardContent >
-                <div className="grid gird-cols-4 grid-rows-6">
-                    <p className="text-white"></p>
-                    <p className="text-white">Shawry</p>
-                    <p className="text-white">Shawry</p>
+                <div className="grid grid-cols-[1.4fr_repeat(4,1fr)] border-b px-4 py-3 text-sm font-medium *:text-white">
+                    <span>Player</span>
+                    <span className="text-center">Wins</span>
+                    <span className="text-center">Losses</span>
+                    <span className="text-center">Win %</span>
+                    <span className="text-right">Win $</span>
                 </div>
             </CardContent>
         </Card>
