@@ -1,3 +1,4 @@
+import { getBettingCardData } from '@/lib/stats/cardStats';
 import BettingCard from './components/cards/BettingCard';
 import LineGraph from './components/charts/LineGraph';
 import PodiumGraph from './components/charts/PodiumGraph';
@@ -8,14 +9,21 @@ export default async function Home(  ) {
 
   const profitData = await getPlayerProfit();
 
+  const roundProfitData = await getRoundProfitData();
+
+  //console.log(roundProfitData)
+
   const podiumChartData = profitData.map((item) => ({
     ...item,
     fill: `var(--color-${item.player.toLocaleLowerCase()})`,
   }));
 
-  const roundProfitData = await getRoundProfitData();
+  const bettingCards = await getBettingCardData([
+    "Shawry",
+    "JP",
+    "Shaz"
+  ]);
 
-  //console.log(roundProfitData)
 
 
   return (
@@ -24,13 +32,20 @@ export default async function Home(  ) {
         
         <h1 className="text-5xl font-bold text-center p-2 m-2 text-foreground">Bet Leaderboard</h1>
         
-        <div className="flex w-full h-screen bg-background items-center justify-center ">
+        {/* Line Graph Section */}
+        <section className="flex w-full h-screen bg-background items-center justify-center ">
           <LineGraph chartData={roundProfitData} />
-        </div>
+        </section>
         
-        <div className="flex w-full h-screen bg-background border-2 items-center justify-center">
-          <BettingCard />
-        </div>
+        {/* Betting Card Section */}
+        <section className="flex w-full h-screen bg-background border-2 items-center justify-center">
+          {bettingCards.map((card) => (
+              <BettingCard
+                key={card.id}
+                card={card}
+              />
+            ))}
+        </section>
 
         <div className="flex w-full h-screen bg-background items-center justify-center">
           <PodiumGraph chartData={podiumChartData} />
