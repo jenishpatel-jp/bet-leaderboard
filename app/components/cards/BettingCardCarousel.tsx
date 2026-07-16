@@ -14,6 +14,8 @@ import {
 import BettingCard from "@/app/components/cards/BettingCard";
 import type { BettingCardData } from "@/lib/stats/cardStats";
 
+
+
 type BettingCardCarouselProps = {
   cards: BettingCardData[];
 };
@@ -23,6 +25,8 @@ const BettingCardCarousel = ({
 }: BettingCardCarouselProps) => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  
 
   React.useEffect(() => {
     if (!api) {
@@ -77,8 +81,11 @@ const BettingCardCarousel = ({
         })}
       </CarouselContent>
 
-      <CarouselPrevious className="left-2 md:-left-12" />
-      <CarouselNext className="right-2 md:-right-12" />
+      {api && ( 
+        <> 
+            <CarouselPrevious className="left-2 md:-left-12" /> 
+            <CarouselNext className="right-2 md:-right-12" /> 
+        </> )}
     </Carousel>
   );
 };

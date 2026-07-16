@@ -252,7 +252,7 @@ function calculateCardStats(
       throw new Error(`Stats missing for player: ${playerName}`);
     }
 
-    const validBets = stats.wins + stats.losses;
+    const validBets = stats.wins + stats.losses + stats.cashedOut;
 
     return {
       ...stats,
