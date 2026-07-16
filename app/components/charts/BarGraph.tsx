@@ -2,9 +2,8 @@
 
 import {
   Bar,
+  BarChart,
   CartesianGrid,
-  ComposedChart,
-  Line,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -46,10 +45,6 @@ const chartConfig = {
     label: "Shaz",
     color: "var(--chart-3)",
   },
-  balance: {
-    label: "Account Balance",
-    color: "var(--chart-4)",
-  },
 } satisfies ChartConfig;
 
 function formatRoundLabel(value: string): string {
@@ -88,24 +83,23 @@ function formatCurrency(value: number): string {
 
 const BarGraph = ({ chartData }: BarGraphProps) => {
   return (
-    <Card className="w-full">
+    <Card className="w-1/2 bg-background border-2">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-white">
           Return and account balance by round
         </CardTitle>
 
         <CardDescription>
-          Individual round returns with the running
-          Sportsbet account balance
+          Individual round returns
         </CardDescription>
       </CardHeader>
 
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="min-h-[400px] w-full"
+          className="min-h-100 w-full"
         >
-          <ComposedChart
+          <BarChart
             accessibilityLayer
             data={chartData}
             margin={{
@@ -124,6 +118,10 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               tickMargin={10}
               minTickGap={16}
               tickFormatter={formatRoundLabel}
+              tick={{
+                      fill:"white",
+                      fontSize: 12
+                    }}
             />
 
             {/* Player return axis */}
@@ -136,18 +134,11 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               tickFormatter={(value) =>
                 formatCurrency(Number(value))
               }
-            />
-
-            {/* Account balance axis */}
-            <YAxis
-              yAxisId="balance"
-              orientation="right"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) =>
-                `$${Number(value).toFixed(0)}`
-              }
+              tick=
+              {{
+                fill:"white",
+                fontSize: 12
+            }}
             />
 
             <ReferenceLine
@@ -166,12 +157,12 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
                       name as keyof typeof chartConfig;
 
                     return (
-                      <div className="flex min-w-[160px] items-center justify-between gap-4">
-                        <span>
+                      <div className="flex min-w-40 items-center justify-between gap-4">
+                        <span className="text-white">
                           {chartConfig[key]?.label}
                         </span>
 
-                        <span className="font-mono font-medium">
+                        <span className="font-mono font-medium text-white">
                           {formatCurrency(Number(value))}
                         </span>
                       </div>
@@ -183,6 +174,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
 
             <ChartLegend
               content={<ChartLegendContent />}
+              className="text-white"
             />
 
             <Bar
@@ -206,21 +198,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               radius={[4, 4, 0, 0]}
             />
 
-            <Line
-              yAxisId="balance"
-              dataKey="balance"
-              type="monotone"
-              stroke="var(--color-balance)"
-              strokeWidth={3}
-              dot={{
-                r: 3,
-                fill: "var(--color-balance)",
-              }}
-              activeDot={{
-                r: 6,
-              }}
-            />
-          </ComposedChart>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
