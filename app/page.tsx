@@ -1,9 +1,9 @@
 import { getBettingCardData } from '@/lib/stats/cardStats';
-import BettingCard from './components/cards/BettingCard';
 import LineGraph from './components/charts/LineGraph';
 import PodiumGraph from './components/charts/PodiumGraph';
 import { getPlayerProfit } from '@/lib/stats/profit';
 import { getRoundProfitData } from '@/lib/stats/roundProfit';
+import BettingCardCarousel from "./components/cards/BettingCardCarousel";
 
 export default async function Home(  ) {
 
@@ -30,7 +30,7 @@ export default async function Home(  ) {
     <div className="flex flex-col flex-1 items-center justify-center bg-white font-sans dark:bg-black">
       <main className="flex flex-1 w-full flex-col justify-center items-center bg-background dark:bg-black border-2">
         
-        <h1 className="text-5xl font-bold text-center p-2 m-2 text-foreground">Bet Leaderboard</h1>
+        <h1 className="text-5xl font-bold text-center p-2 m-2 text-white">Bet Leaderboard</h1>
         
         {/* Line Graph Section */}
         <section className="flex w-full h-screen bg-background items-center justify-center ">
@@ -38,13 +38,8 @@ export default async function Home(  ) {
         </section>
         
         {/* Betting Card Section */}
-        <section className="flex w-full h-screen bg-background border-2 items-center justify-center">
-          {bettingCards.map((card) => (
-              <BettingCard
-                key={card.id}
-                card={card}
-              />
-            ))}
+        <section className="flex min-h-screen w-full items-center justify-center overflow-hidden bg-background px-6 py-12">
+          <BettingCardCarousel cards={bettingCards} />
         </section>
 
         <div className="flex w-full h-screen bg-background items-center justify-center">

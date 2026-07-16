@@ -54,7 +54,7 @@ const METRICS: Metric[] = [
 const BettingCard = ({ card } : BettingCardProps) => {
     
     return (
-        <Card className="bg-background text-white w-1/6 h-1/2 rounded-3xl flex border-2">
+        <Card className="w-full rounded-3xl border-2 bg-background text-foreground">
 
             <CardHeader>
                 <CardTitle className="text-center text-3xl">
