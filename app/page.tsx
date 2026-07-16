@@ -1,4 +1,3 @@
-import BetSummary from './components/cards/BetSummary';
 import BettingCard from './components/cards/BettingCard';
 import LineGraph from './components/charts/LineGraph';
 import PodiumGraph from './components/charts/PodiumGraph';

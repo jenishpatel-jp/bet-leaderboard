@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { TransactionType } from "@/lib/generated/prisma/client";
 
-
 const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const DAYS_PER_ROUND = 7;
 
