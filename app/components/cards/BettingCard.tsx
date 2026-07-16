@@ -17,6 +17,7 @@ type Metric = {
   getValue: (
     player: BettingCardData["players"][number]
   ) => string | number;
+  className?: string;
 };
 
 const METRICS: Metric[] = [
@@ -34,11 +35,13 @@ const METRICS: Metric[] = [
   },
   {
     label: "Win %",
+    className: "text-xl font-extrabold text-white",
     getValue: (player) =>
       `${player.winPercentage.toFixed(1)}%`,
   },
   {
     label: "Profit",
+    className: "text-xl font-extrabold text-white",
     getValue: (player) => {
       const formattedProfit = Math.abs(player.profit).toFixed(2);
 
@@ -69,42 +72,41 @@ const BettingCard = ({ card } : BettingCardProps) => {
             <CardContent className="p-0">
                 {/* Header */}
                  <div className="grid grid-cols-[1.4fr_repeat(3,1fr)] border-b px-4 py-3 text-xl font-bold">
-          <div />
+                    <div />
 
-          {card.players.map((player) => (
-            <div
-              key={player.player}
-              className="text-center"
-            >
-              {player.player}
-            </div>
-          ))}
-        </div>
+                    {card.players.map((player) => (
+                        <div
+                        key={player.player}
+                        className="text-center"
+                        >
+                        {player.player}
+                        </div>
+                    ))}
+                    </div>
 
-        {METRICS.map((metric) => (
-          <div
-            key={metric.label}
-            className="grid grid-cols-[1.4fr_repeat(3,1fr)] border-b px-4 py-3 text-lg last:border-b-0"
-          >
-            <div className="font-bold">
-              {metric.label}
-            </div>
+                {METRICS.map((metric) => (
+                <div
+                    key={metric.label}
+                    className={`grid grid-cols-[1.4fr_repeat(3,1fr)] border-b px-4 py-3 text-lg last:border-b-0 ${
+                        metric.className ?? "text-lg"
+                    }`}
+                >
+                    <div className="font-bold">
+                    {metric.label}
+                    </div>
 
-            {card.players.map((player) => (
-              <div
-                key={`${metric.label}-${player.player}`}
-                className="text-center font-semibold"
-              >
-                {metric.getValue(player)}
-              </div>
-            ))}
-          </div>
-        ))}
+                    {card.players.map((player) => (
+                    <div
+                        key={`${metric.label}-${player.player}`}
+                        className="text-center font-semibold"
+                    >
+                        {metric.getValue(player)}
+                    </div>
+                    ))}
+                </div>
+                ))}
 
             </CardContent>
-
-            
-
         </Card>
     )
 }
