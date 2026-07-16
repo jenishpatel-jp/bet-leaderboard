@@ -1,22 +1,13 @@
 import { getBettingCardData } from '@/lib/stats/cardStats';
 import LineGraph from './components/charts/LineGraph';
-import PodiumGraph from './components/charts/PodiumGraph';
-import { getPlayerProfit } from '@/lib/stats/profit';
 import { getRoundProfitData } from '@/lib/stats/roundProfit';
 import BettingCardCarousel from "./components/cards/BettingCardCarousel";
 
 export default async function Home(  ) {
 
-  const profitData = await getPlayerProfit();
-
   const roundProfitData = await getRoundProfitData();
 
   //console.log(roundProfitData)
-
-  const podiumChartData = profitData.map((item) => ({
-    ...item,
-    fill: `var(--color-${item.player.toLocaleLowerCase()})`,
-  }));
 
   const bettingCards = await getBettingCardData([
     "Shawry",
@@ -41,11 +32,6 @@ export default async function Home(  ) {
         <section className="flex min-h-screen w-full items-center justify-center overflow-hidden bg-background px-6 py-12">
           <BettingCardCarousel cards={bettingCards} />
         </section>
-
-        <div className="flex w-full h-screen bg-background items-center justify-center">
-          <PodiumGraph chartData={podiumChartData} />
-        </div>
-
 
       </main>
     </div>
