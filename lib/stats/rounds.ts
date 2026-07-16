@@ -5,12 +5,12 @@ const DAYS_PER_ROUND = 7;
  * Round 0 is a special opening period:
  * Monday 2 March to Monday 9 March 2026.
  */
-const ROUND_ZERO_START = Date.UTC(2026, 2, 2);
+export const ROUND_ZERO_START = Date.UTC(2026, 2, 2);
 
 /**
  * From Round 1 onwards, rounds run Tuesday to Monday.
  */
-const ROUND_ONE_START = Date.UTC(2026, 2, 10);
+export const ROUND_ONE_START = Date.UTC(2026, 2, 10);
 
 export const ROUND_LABELS = [
   ...Array.from({ length: 25 }, (_, index) => `Round ${index}`),
