@@ -102,6 +102,56 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                     }}
                 >
 
+                  <defs>
+                    <filter
+                      id="shawryGlow"
+                      x="-50%"
+                      y="-50%"
+                      width="200%"
+                      height="200%"
+                    >
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feFlood floodColor="var(--color-shawry)" floodOpacity="0.9" />
+                      <feComposite in2="blur" operator="in" />
+                      <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+
+                    <filter
+                      id="jpGlow"
+                      x="-50%"
+                      y="-50%"
+                      width="200%"
+                      height="200%"
+                    >
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feFlood floodColor="var(--color-jp)" floodOpacity="0.9" />
+                      <feComposite in2="blur" operator="in" />
+                      <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+
+                    <filter
+                      id="shazGlow"
+                      x="-50%"
+                      y="-50%"
+                      width="200%"
+                      height="200%"
+                    >
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feFlood floodColor="var(--color-shaz)" floodOpacity="0.9" />
+                      <feComposite in2="blur" operator="in" />
+                      <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
                     <CartesianGrid vertical={false} />
 
                     <XAxis
@@ -161,6 +211,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         stroke="var(--color-shawry)"
                         strokeWidth={2}
                         dot={false}
+                        filter="url(#shawryGlow)"
                         />
                     <Line
                         dataKey="jp"
@@ -168,6 +219,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         stroke="var(--color-jp)"
                         strokeWidth={2}
                         dot={false}
+                        filter="url(#jpGlow)"
                     />
                     <Line
                         dataKey="shaz"
@@ -175,6 +227,7 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         stroke="var(--color-shaz)"
                         strokeWidth={2}
                         dot={false}
+                        filter="url(#shawryGlow)"
                     />
                 </LineChart>
                 </ChartContainer>
