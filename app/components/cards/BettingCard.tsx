@@ -35,13 +35,13 @@ const METRICS: Metric[] = [
   },
   {
     label: "Win %",
-    className: "text-xl font-extrabold text-white",
+    className: "text-xl font-extrabold",
     getValue: (player) =>
       `${player.winPercentage.toFixed(1)}%`,
   },
   {
     label: "Profit",
-    className: "text-xl font-extrabold text-white",
+    className: "text-xl font-extrabold",
     getValue: (player) => {
       const formattedProfit = Math.abs(player.profit).toFixed(2);
 
@@ -57,13 +57,13 @@ const METRICS: Metric[] = [
 const BettingCard = ({ card } : BettingCardProps) => {
     
     return (
-        <Card className="w-full rounded-3xl border-2 bg-background text-foreground">
+        <Card className="w-full rounded-3xl border-2 bg-background text-white">
 
             <CardHeader>
                 <CardTitle className="text-center text-3xl">
                     {card.title}
                 </CardTitle>
-                <CardDescription className="text-center text-white">
+                <CardDescription className="text-center">
                     {card.description}    
                 </CardDescription>
             </CardHeader>
