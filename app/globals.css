@@ -7,6 +7,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Player coulours */
+  --color-shawry: var(--shawry);
+  --color-jp: var(--jp);
+  --color-shaz: var(--shaz);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
