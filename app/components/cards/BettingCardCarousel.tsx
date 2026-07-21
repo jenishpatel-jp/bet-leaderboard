@@ -83,8 +83,8 @@ const BettingCardCarousel = ({
 
       {api && ( 
         <> 
-            <CarouselPrevious className="left-2 md:-left-12" /> 
-            <CarouselNext className="right-2 md:-right-12" /> 
+            <CarouselPrevious className="hidden lg:flex lg:-left-12 text-white" /> 
+            <CarouselNext className="hidden lg:flex lg:-right-12 text-white" /> 
         </> )}
     </Carousel>
   );
