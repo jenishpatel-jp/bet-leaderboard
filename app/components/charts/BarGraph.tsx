@@ -83,7 +83,7 @@ function formatCurrency(value: number): string {
 
 const BarGraph = ({ chartData }: BarGraphProps) => {
   return (
-    <Card className="w-3/4 bg-background border-2 p-2 m-2">
+    <Card className="lg:w-3/4 bg-background border-2 p-2 m-2">
       <CardHeader>
         <CardTitle className="text-white">
           Return and account balance by round
