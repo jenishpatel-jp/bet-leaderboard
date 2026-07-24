@@ -188,16 +188,31 @@ const LineGraph = ({ chartData }: LineGraphProps) => {
                         cursor={false} 
                         content={
                         <ChartTooltipContent 
-                            formatter={(value, name) => (
-                            <div className="flex min-w-32.5 items-center justify-between gap-4">
-                            <span className="text-white">{chartConfig[name as keyof typeof chartConfig]?.label}</span>
+                            labelClassName="text-white"
+                              formatter={(value, name) => {
+                                const playerKey = name as keyof typeof chartConfig;
+                                const player = chartConfig[playerKey];
 
-                            <span className="font-mono font-medium text-foreground">
-                                ${Number(value).toFixed(2)}
-                            </span>
-                            </div>
-                        )}
-                        />} />
+                                return (
+                                  <div className="flex min-w-32.5 items-center justify-between gap-4">
+                                    <span className="text-white">
+                                      {player?.label}
+                                    </span>
+
+                                    <span
+                                      className="font-mono font-medium"
+                                      style={{
+                                        color: `var(--color-${playerKey})`,
+                                      }}
+                                    >
+                                      ${Number(value).toFixed(2)}
+                                    </span>
+                                  </div>
+                                );
+                              }}
+                            />
+                          } 
+                    />
 
                     <ChartLegend 
                       content={
