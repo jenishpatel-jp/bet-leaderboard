@@ -148,28 +148,34 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               strokeDasharray="3 3"
             />
 
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  formatter={(value, name) => {
-                    const key =
-                      name as keyof typeof chartConfig;
+            <ChartTooltip 
+                cursor={false} 
+                content={
+                <ChartTooltipContent 
+                    labelClassName="text-white"
+                      formatter={(value, name) => {
+                        const playerKey = name as keyof typeof chartConfig;
+                        const player = chartConfig[playerKey];
 
-                    return (
-                      <div className="flex min-w-40 items-center justify-between gap-4">
-                        <span className="text-white">
-                          {chartConfig[key]?.label}
-                        </span>
+                        return (
+                          <div className="flex min-w-32.5 items-center justify-between gap-4">
+                            <span className="text-white">
+                              {player?.label}
+                            </span>
 
-                        <span className="font-mono font-medium text-white">
-                          {formatCurrency(Number(value))}
-                        </span>
-                      </div>
-                    );
-                  }}
-                />
-              }
+                            <span
+                              className="font-mono font-medium"
+                              style={{
+                                color: `var(--color-${playerKey})`,
+                              }}
+                            >
+                              ${Number(value).toFixed(2)}
+                            </span>
+                          </div>
+                        );
+                      }}
+                    />
+                  } 
             />
 
             <ChartLegend
