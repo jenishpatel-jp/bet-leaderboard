@@ -75,7 +75,7 @@ const BarGraphWithLabels = ({
   chartData,
 }: BarGraphWithLabelsProps) => {
   return (
-    <Card className="w-1/2 bg-background border-2">
+    <Card className="lg:w-3/4 bg-background border-2 p-2 m-2">
       <CardHeader>
         <CardTitle className="text-white">
           Account Balance by Round

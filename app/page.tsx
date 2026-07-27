@@ -3,7 +3,7 @@ import LineGraph from './components/charts/LineGraph';
 import { getRoundProfitData } from '@/lib/stats/roundProfit';
 import BettingCardCarousel from "./components/cards/BettingCardCarousel";
 import BarGraph from "./components/charts/BarGraph";
-import { getBarGraphData, getBalanceBarGraphData } from "@/lib/stats/barGraph";
+import { getBarGraphData} from "@/lib/stats/barGraph";
 import BarGraphWithLabels from "./components/charts/BarGraphWithLabels";
 
 export default async function Home(  ) {
