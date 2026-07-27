@@ -1,91 +1,166 @@
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
-export const description = "A bar chart with a label"
+import type { BalanceBarGraphData } from "@/lib/stats/barGraph";
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
+type BarGraphWithLabelsProps = {
+  chartData: BalanceBarGraphData[];
+};
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
+  balance: {
+    label: "Account Balance",
+    color: "var(--chart-4)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-const BarGraphWithLabels = () => {
+function formatRoundLabel(value: string): string {
+  if (value.startsWith("Round ")) {
+    return value.replace("Round ", "R");
+  }
 
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Bar Chart - Label</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <ChartContainer config={chartConfig}>
-                <BarChart
-                    accessibilityLayer
-                    data={chartData}
-                    margin={{
-                    top: 20,
-                    }}
-                >
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    />
-                    <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent hideLabel />}
-                    />
-                    <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
-                    <LabelList
-                        position="top"
-                        offset={12}
-                        className="fill-foreground"
-                        fontSize={12}
-                    />
-                    </Bar>
-                </BarChart>
-                </ChartContainer>
-            </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 leading-none font-medium">
-                Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
-                <div className="leading-none text-muted-foreground">
-                Showing total visitors for the last 6 months
-                </div>
-            </CardFooter>
-        </Card>
-    )
-    }
+  switch (value) {
+    case "Wild Card Round":
+      return "WC";
 
-export default BarGraphWithLabels
+    case "Finals Week 1":
+      return "FW1";
+
+    case "Semi Finals":
+      return "SF";
+
+    case "Preliminary Finals":
+      return "PF";
+
+    case "Grand Final":
+      return "GF";
+
+    default:
+      return value;
+  }
+}
+
+function formatCurrency(value: number): string {
+  const absoluteValue = Math.abs(value).toFixed(2);
+
+  return value < 0
+    ? `-$${absoluteValue}`
+    : `$${absoluteValue}`;
+}
+
+const BarGraphWithLabels = ({
+  chartData,
+}: BarGraphWithLabelsProps) => {
+  return (
+    <Card className="w-1/2 bg-background border-2">
+      <CardHeader>
+        <CardTitle className="text-white">
+          Account Balance by Round
+        </CardTitle>
+
+        <CardDescription>
+          Sportsbet account balance after each AFL round
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <ChartContainer
+          config={chartConfig}
+          className="min-h-100 w-full"
+        >
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              top: 40,
+              right: 24,
+              bottom: 12,
+              left: 12,
+            }}
+          >
+            <CartesianGrid vertical={false} />
+
+            <XAxis
+              dataKey="round"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={10}
+              minTickGap={16}
+              tickFormatter={formatRoundLabel}
+              tick={{
+                fill: "white",
+                fontSize: 12,
+              }}
+            />
+
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) =>
+                formatCurrency(Number(value))
+              }
+              tick={{
+                fill: "white",
+                fontSize: 12,
+              }}
+            />
+
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  formatter={(value) => (
+                    <span className="text-white font-medium">
+                      {formatCurrency(Number(value))}
+                    </span>
+                  )}
+                />
+              }
+            />
+
+            <Bar
+              dataKey="balance"
+              fill="var(--chart-4)"
+              radius={[8, 8, 0, 0]}
+            >
+              <LabelList
+                dataKey="balance"
+                position="top"
+                offset={12}
+                className="fill-white"
+                fontSize={12}
+              />
+            </Bar>
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default BarGraphWithLabels;

@@ -15,6 +15,11 @@ export type BarGraphData = {
   balance: number;
 };
 
+export type BalanceBarGraphData = {
+  round: string;
+  balance: number;
+};
+
 type PlayerKey = "shawry" | "jp" | "shaz";
 
 const getPlayerKey = (
@@ -164,4 +169,15 @@ export async function getBarGraphData(): Promise<
         balance: Number(runningBalance.toFixed(2)),
       };
     });
+}
+
+export async function getBalanceBarGraphData(): Promise<
+  BalanceBarGraphData[]
+> {
+  const data = await getBarGraphData();
+
+  return data.map((round) => ({
+    round: round.round,
+    balance: round.balance,
+  }));
 }

@@ -3,7 +3,8 @@ import LineGraph from './components/charts/LineGraph';
 import { getRoundProfitData } from '@/lib/stats/roundProfit';
 import BettingCardCarousel from "./components/cards/BettingCardCarousel";
 import BarGraph from "./components/charts/BarGraph";
-import { getBarGraphData } from "@/lib/stats/barGraph";
+import { getBarGraphData, getBalanceBarGraphData } from "@/lib/stats/barGraph";
+import BarGraphWithLabels from "./components/charts/BarGraphWithLabels";
 
 export default async function Home(  ) {
 
@@ -19,6 +20,10 @@ export default async function Home(  ) {
 
   const barGraphData = await getBarGraphData();
 
+  const balanceBarGraphData = barGraphData.map((round) => ({
+    round: round.round,
+    balance: round.balance,
+  }));
 
 
   return (
@@ -39,6 +44,12 @@ export default async function Home(  ) {
 
         <section className="flex min-h-screen w-full items-center justify-center bg-background px-6 py-12">
           <BarGraph chartData={barGraphData} />
+        </section>
+
+        <section className="flex min-h-screen w-full items-center justify-center bg-background px-6 py-12">
+          <BarGraphWithLabels
+            chartData={balanceBarGraphData}
+          />
         </section>
 
       </main>
