@@ -26,6 +26,8 @@ import {
 
 import type { BalanceBarGraphData } from "@/lib/stats/barGraph";
 
+import { useEffect, useState } from "react";
+
 type BarGraphWithLabelsProps = {
   chartData: BalanceBarGraphData[];
 };
@@ -74,93 +76,119 @@ function formatCurrency(value: number): string {
 const BarGraphWithLabels = ({
   chartData,
 }: BarGraphWithLabelsProps) => {
-  return (
-    <Card className="lg:w-3/4 bg-background border-2 p-2 m-2">
-      <CardHeader>
-        <CardTitle className="text-white">
-          Account Balance by Round
-        </CardTitle>
 
-        <CardDescription>
-          Sportsbet account balance after each AFL round
-        </CardDescription>
-      </CardHeader>
+    
 
-      <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className="min-h-100 w-full"
-        >
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 40,
-              right: 24,
-              bottom: 12,
-              left: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
+function useIsDesktop() {
+    const [isDesktop, setIsDesktop] = useState(false);
 
-            <XAxis
-              dataKey="round"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-              minTickGap={16}
-              tickFormatter={formatRoundLabel}
-              tick={{
-                fill: "white",
-                fontSize: 12,
-              }}
-            />
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(min-width: 768px)");
 
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) =>
-                formatCurrency(Number(value))
-              }
-              tick={{
-                fill: "white",
-                fontSize: 12,
-              }}
-            />
+        const update = () => setIsDesktop(mediaQuery.matches);
 
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  hideLabel
-                  formatter={(value) => (
-                    <span className="text-white font-medium">
-                      {formatCurrency(Number(value))}
-                    </span>
-                  )}
-                />
-              }
-            />
+        update();
 
-            <Bar
-              dataKey="balance"
-              fill="var(--chart-4)"
-              radius={[8, 8, 0, 0]}
+        mediaQuery.addEventListener("change", update);
+
+        return () =>
+        mediaQuery.removeEventListener("change", update);
+    }, []);
+
+    return isDesktop;
+    }
+
+    const isDesktop = useIsDesktop();
+
+    return (
+        <Card className="lg:w-3/4 bg-background border-2 p-2 m-2">
+        <CardHeader>
+            <CardTitle className="text-white">
+            Account Balance by Round
+            </CardTitle>
+
+            <CardDescription>
+            Sportsbet account balance after each AFL round
+            </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+            <ChartContainer
+            config={chartConfig}
+            className="min-h-100 w-full"
             >
-              <LabelList
-                dataKey="balance"
-                position="top"
-                offset={12}
-                className="fill-white"
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
-  );
-};
+            <BarChart
+                accessibilityLayer
+                data={chartData}
+                margin={{
+                top: 40,
+                right: 24,
+                bottom: 12,
+                left: 12,
+                }}
+            >
+                <CartesianGrid vertical={false} />
+
+                <XAxis
+                dataKey="round"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+                minTickGap={16}
+                tickFormatter={formatRoundLabel}
+                tick={{
+                    fill: "white",
+                    fontSize: 12,
+                }}
+                />
+
+                <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) =>
+                    formatCurrency(Number(value))
+                }
+                tick={{
+                    fill: "white",
+                    fontSize: 12,
+                }}
+                />
+
+                <ChartTooltip
+                cursor={false}
+                content={
+                    <ChartTooltipContent
+                    hideLabel
+                    formatter={(value) => (
+                        <span className="text-white font-medium">
+                        {formatCurrency(Number(value))}
+                        </span>
+                    )}
+                    />
+                }
+                />
+
+                <Bar
+                    dataKey="balance"
+                    fill="var(--chart-4)"
+                    radius={[8, 8, 0, 0]}
+                    >
+                    {isDesktop && (
+                        <LabelList
+                        dataKey="balance"
+                        position="top"
+                        offset={12}
+                        className="fill-white"
+                        fontSize={12}
+                        />
+                )}
+                </Bar>
+            </BarChart>
+            </ChartContainer>
+        </CardContent>
+        </Card>
+    );
+    };
 
 export default BarGraphWithLabels;
