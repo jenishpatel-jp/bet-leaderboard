@@ -171,7 +171,7 @@ function useIsDesktop() {
 
                 <Bar
                     dataKey="balance"
-                    fill="var(--chart-4)"
+                    fill="var(--chart-1)"
                     radius={[8, 8, 0, 0]}
                     >
                     {isDesktop && (
