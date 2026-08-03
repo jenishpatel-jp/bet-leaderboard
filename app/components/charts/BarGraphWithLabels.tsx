@@ -24,6 +24,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
+import ChartGlowDefs from "@/app/components/charts/ChartGlowDefs";
+
 import type { BalanceBarGraphData } from "@/lib/stats/barGraph";
 
 import { useEffect, useState } from "react";
@@ -128,6 +130,7 @@ function useIsDesktop() {
                 }}
             >
                 <CartesianGrid vertical={false} />
+                <ChartGlowDefs />
 
                 <XAxis
                 dataKey="round"
@@ -173,6 +176,7 @@ function useIsDesktop() {
                     dataKey="balance"
                     fill="var(--chart-1)"
                     radius={[8, 8, 0, 0]}
+                    filter="url(#shawryGlow)"
                     >
                     {isDesktop && (
                         <LabelList
