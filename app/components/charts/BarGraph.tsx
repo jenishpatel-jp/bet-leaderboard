@@ -26,6 +26,8 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 
+import ChartGlowDefs from "@/app/components/charts/ChartGlowDefs";
+
 import type { BarGraphData } from "@/lib/stats/barGraph";
 
 type BarGraphProps = {
@@ -110,6 +112,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
             }}
           >
             <CartesianGrid vertical={false} />
+            <ChartGlowDefs />
 
             <XAxis
               dataKey="round"
@@ -188,6 +191,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               dataKey="shawry"
               fill="var(--color-shawry)"
               radius={[4, 4, 0, 0]}
+              filter="url(#shawryGlow)"
             />
 
             <Bar
@@ -195,6 +199,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               dataKey="jp"
               fill="var(--color-jp)"
               radius={[4, 4, 0, 0]}
+              filter="url(#jpGlow)"
             />
 
             <Bar
@@ -202,6 +207,7 @@ const BarGraph = ({ chartData }: BarGraphProps) => {
               dataKey="shaz"
               fill="var(--color-shaz)"
               radius={[4, 4, 0, 0]}
+              filter="url(#shazGlow)"
             />
 
           </BarChart>
